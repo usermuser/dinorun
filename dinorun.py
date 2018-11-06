@@ -5,8 +5,8 @@ import pygame
 from pygame import *
 import pyganim
 
-WIN_WIDTH =  400# 800 #Ширина создаваемого окна
-WIN_HEIGHT = 320# 640 # Высота
+WIN_WIDTH =  800 #Ширина создаваемого окна
+WIN_HEIGHT = 640 # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT) # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = '#a4b0c4' #'#0639a8' # "#004400"
 BLACK = (0,0,0)
@@ -46,28 +46,33 @@ def main():
     platforms = []  # то, во что мы будем врезаться или опираться
     entities.add(hero)
 
-    level = ['-----------------------------',
-             '',
-             '',
-             '',
-             '',
-             '',
-             '',
-             '',
-             '-----------------------------',
-             '-----------------------------']
+    # level = ['',
+    #          '',
+    #          '',
+    #          '',
+    #          '',
+    #          '',
+    #          '',
+    #          '',
+    #          '',
+    #          '',
+    #          '',
+    #          '',
+    #          '',
+    #          '',
+    #          '-----------------------------']
     timer = pygame.time.Clock()
-    x = y = 0  # координаты
-    for row in level:  # вся строка
-        for col in row:  # каждый символ
-            if col == "-":
-                pf = Platform(x, y)  # создаем экземпляр класса Platform
-                entities.add(pf)  # добавляем его в группу спрайтов entities
-                platforms.append(pf)  # массив платформ
-
-            x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
-        y += PLATFORM_HEIGHT  # то же самое и с высотой
-        x = 0  # на каждой новой строчке начинаем с нуля
+    # x = y = 0  # координаты
+    # for row in level:  # вся строка
+    #     for col in row:  # каждый символ
+    #         if col == "-":
+    #             pf = Platform(x, y)  # создаем экземпляр класса Platform
+    #             entities.add(pf)  # добавляем его в группу спрайтов entities
+    #             platforms.append(pf)  # массив платформ
+    #
+    #         x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
+    #     y += PLATFORM_HEIGHT  # то же самое и с высотой
+    #     x = 0  # на каждой новой строчке начинаем с нуля
 
     while True:
         timer.tick(60)
