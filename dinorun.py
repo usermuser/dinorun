@@ -27,9 +27,9 @@ PLATFORM_HEIGHT = 32
 PLATFORM_COLOR = "#FF6262"
 
 ANIMATION_DELAY = 100 # скорость смены кадров
-ANIMATION_JUMP = [('dino_jump.png', 100)]
-ANIMATION_RUN = [('dino_r1.png'),
-                ('dino_r2.png'),]
+ANIMATION_JUMP = [('assets/dino/dino_jump.png', 100)]
+ANIMATION_RUN = [('assets/dino/dino_r1.png'),
+                ('assets/dino/dino_r2.png'),]
 
 def main():
     pygame.init()
@@ -117,6 +117,7 @@ class Dino(sprite.Sprite):
                 self.yvel = -JUMP_POWER
             self.image.fill(Color(COLOR))
             self.boltAnimJump.blit(self.image, (0, 0))
+
 
         if not self.onGround:
                 self.yvel += GRAVITY
