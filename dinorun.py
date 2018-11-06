@@ -26,10 +26,10 @@ PLATFORM_WIDTH = 32
 PLATFORM_HEIGHT = 32
 PLATFORM_COLOR = "#FF6262"
 
-ANIMATION_DELAY = 0.1 # скорость смены кадров
-# ANIMATION_JUMP = [('dino_jump.png', 0.1)]
-# ANIMATION_RUN = [('dino_r1.png'),
-#                 ('dino_r2.png'),]
+ANIMATION_DELAY = 100 # скорость смены кадров
+ANIMATION_JUMP = [('dino_jump.png', 100)]
+ANIMATION_RUN = [('dino_r1.png'),
+                ('dino_r2.png'),]
 
 def main():
     pygame.init()
@@ -102,14 +102,13 @@ class Dino(sprite.Sprite):
         self.image.set_colorkey(Color(COLOR))  # делаем фон прозрачным
         # Анимация бега
         boltAnim = []
-        # for anim in ANIMATION_RUN:
-        #     boltAnim.append((anim,ANIMATION_DELAY))
-        self.boltAnimRun = pyganim.PygAnimation([('dino_r1.png',100),
-                                                 ('dino_r2.png',100)])
+        for anim in ANIMATION_RUN:
+            boltAnim.append((anim,ANIMATION_DELAY))
+        self.boltAnimRun = pyganim.PygAnimation(boltAnim)
         self.boltAnimRun.play()
 
         self.image.set_colorkey(Color(COLOR))  # делаем фон прозрачным
-        self.boltAnimJump = pyganim.PygAnimation([('dino_jump.png', 100)])
+        self.boltAnimJump = pyganim.PygAnimation(ANIMATION_JUMP)
         self.boltAnimJump.play()
 
     def update(self, up, platforms):
