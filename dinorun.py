@@ -42,7 +42,7 @@ def main():
     bg = Surface((WIN_WIDTH, WIN_HEIGHT))
     bg.fill(Color(BACKGROUND_COLOR))
     hero = Dino(50, 200)  # создаем героя по (x,y) координатам
-    cactus = BlockDie(700, 400,'small')
+    cactus = BlockDie(1000, 400,'small')
 
     up = False
 
