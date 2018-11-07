@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 #https://pythonprogramming.net/pygame-crashing-objects/?completed=/drawing-objects-pygame-tutorial/
 #https://www.cs.ucsb.edu/~pconrad/cs5nm/topics/pygame/drawing/
+import os
 import pygame
 from pygame import *
 import pyganim
 
-WIN_WIDTH =  800 #Ширина создаваемого окна
+ICON_DIR = os.path.dirname(__file__) #  Полный путь к каталогу с файлами
+WIN_WIDTH =  800 # Ширина создаваемого окна
 WIN_HEIGHT = 640 # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT) # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = '#a4b0c4' #'#0639a8' # "#004400"
@@ -27,10 +29,10 @@ PLATFORM_HEIGHT = 32
 PLATFORM_COLOR = "#FF6262"
 
 ANIMATION_DELAY = 100 # скорость смены кадров
-ANIMATION_JUMP = [('assets/dino/dino_jump.png', 100)]
-ANIMATION_RUN = [('assets/dino/dino_r1.png'),
-                ('assets/dino/dino_r2.png'),]
-ICON_DIR = os.path.dirname(__file__) #  Полный путь к каталогу с файлами
+ANIMATION_JUMP = [('assets/dino/dino_jump.png'.format(ICON_DIR), 100)]
+ANIMATION_RUN = [('assets/dino/dino_r1.png'.format(ICON_DIR)),
+                ('assets/dino/dino_r2.png').format(ICON_DIR),]
+
 
 def main():
     pygame.init()
@@ -40,12 +42,14 @@ def main():
     bg = Surface((WIN_WIDTH, WIN_HEIGHT))
     bg.fill(Color(BACKGROUND_COLOR))
     hero = Dino(50, 200)  # создаем героя по (x,y) координатам
+    cactus = BlockDie(700,200,'small')
 
     up = False
 
     entities = pygame.sprite.Group()  # Все объекты
     platforms = []  # то, во что мы будем врезаться или опираться
     entities.add(hero)
+    entities.add(cactus)
 
     level = ['',
              '',
@@ -90,6 +94,7 @@ def main():
 
         screen.blit(bg, (0,0))
         hero.update(up, platforms)  # передвижение
+        cactus.update()
         entities.draw(screen)
         pygame.display.update()
 
@@ -157,31 +162,33 @@ class Dino(sprite.Sprite):
                     self.rect.top = p.rect.bottom  # то не движется вверх
                     self.yvel = 0  # и энергия прыжка пропадает
 
+                if isinstance(p, BlockDie):
+                    self.die()
+
     def die(self):
         time.wait(500)
-        self.teleporting(self.startX, self.startY) # перемещаемся в начальные координаты
+        raise SystemExit
 
 
 class Platform(sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
-        self.image = image.load("assets/blocks/platform.png")
+        self.image = image.load("assets/blocks/platform.png".format(ICON_DIR))
         self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+
 
 class BlockDie(sprite.Sprite):
     def __init__(self, x, y, size):
         super().__init__()
-        self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
-        self.image.fill(Color(COLOR))
-        self.image = image.load('assets/blocks/penis.png')
+        self.image = image.load('assets/blocks/penis.png'.format(ICON_DIR))
         self.type = size
         # Не забудь сделать self.rect
         self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT) # прямоугольный объект
         self.image.set_colorkey(Color(COLOR)) # делаем фон прозрачным
         self.startX = x # начальные координаты
         self.startY = y
-        self.xvel = 3
+        self.xvel = -3
         self.yvel = 0
 
     def update(self):
