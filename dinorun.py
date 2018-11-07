@@ -42,7 +42,7 @@ def main():
     bg = Surface((WIN_WIDTH, WIN_HEIGHT))
     bg.fill(Color(BACKGROUND_COLOR))
     hero = Dino(50, 200)  # создаем героя по (x,y) координатам
-    cactus = BlockDie(700,200,'small')
+    cactus = BlockDie(700, 400,'small')
 
     up = False
 
@@ -97,6 +97,9 @@ def main():
         cactus.update()
         entities.draw(screen)
         pygame.display.update()
+
+        if cactus.rect.x < 0:
+            cactus.rect.x = 1000
 
 
 class Dino(sprite.Sprite):
@@ -166,8 +169,9 @@ class Dino(sprite.Sprite):
             # print('collide')
             self.die()
 
+
     def die(self):
-        time.wait(500)
+        time.wait(1500)
         raise SystemExit
 
 
@@ -193,11 +197,8 @@ class BlockDie(sprite.Sprite):
         self.yvel = 0
 
     def update(self):
-        # self.image.fill(Color(PLATFORM_COLOR))
         self.rect.x += self.xvel
         self.rect.y += self.yvel
-
-
 
 
 if __name__ == '__main__':
