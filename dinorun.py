@@ -46,33 +46,33 @@ def main():
     platforms = []  # то, во что мы будем врезаться или опираться
     entities.add(hero)
 
-    # level = ['',
-    #          '',
-    #          '',
-    #          '',
-    #          '',
-    #          '',
-    #          '',
-    #          '',
-    #          '',
-    #          '',
-    #          '',
-    #          '',
-    #          '',
-    #          '',
-    #          '-----------------------------']
+    level = ['',
+             '',
+             '',
+             '',
+             '',
+             '',
+             '',
+             '',
+             '',
+             '',
+             '',
+             '',
+             '',
+             '',
+             '-----------------------------']
     timer = pygame.time.Clock()
-    # x = y = 0  # координаты
-    # for row in level:  # вся строка
-    #     for col in row:  # каждый символ
-    #         if col == "-":
-    #             pf = Platform(x, y)  # создаем экземпляр класса Platform
-    #             entities.add(pf)  # добавляем его в группу спрайтов entities
-    #             platforms.append(pf)  # массив платформ
-    #
-    #         x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
-    #     y += PLATFORM_HEIGHT  # то же самое и с высотой
-    #     x = 0  # на каждой новой строчке начинаем с нуля
+    x = y = 0  # координаты
+    for row in level:  # вся строка
+        for col in row:  # каждый символ
+            if col == "-":
+                pf = Platform(x, y)  # создаем экземпляр класса Platform
+                entities.add(pf)  # добавляем его в группу спрайтов entities
+                platforms.append(pf)  # массив платформ
+
+            x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
+        y += PLATFORM_HEIGHT  # то же самое и с высотой
+        x = 0  # на каждой новой строчке начинаем с нуля
 
     while True:
         timer.tick(60)
@@ -163,6 +163,13 @@ class Platform(sprite.Sprite):
         self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
         self.image = image.load("assets/blocks/platform.png")
         self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+
+class BlockDie(sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = image.load('assets/blocks/penis.png')
+        self.type = ['small','double_small','big','double_big']
+        # Не забудь сделать self.rect
 
 
 if __name__ == '__main__':
