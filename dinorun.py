@@ -93,7 +93,7 @@ def main():
                 up = False
 
         screen.blit(bg, (0,0))
-        hero.update(up, platforms)  # передвижение
+        hero.update(up, platforms, cactus)  # передвижение
         cactus.update()
         entities.draw(screen)
         pygame.display.update()
@@ -122,7 +122,7 @@ class Dino(sprite.Sprite):
         self.boltAnimJump = pyganim.PygAnimation(ANIMATION_JUMP)
         self.boltAnimJump.play()
 
-    def update(self, up, platforms):
+    def update(self, up, platforms, cactus):
         if up:
             if self.onGround:
                 self.yvel = -JUMP_POWER
@@ -137,13 +137,13 @@ class Dino(sprite.Sprite):
         self.boltAnimRun.blit(self.image, (0, 0))
         self.onGround = False  # Мы не знаем, когда мы на земле((
         self.rect.y += self.yvel
-        self.collide(0, self.yvel, platforms)
+        self.collide(0, self.yvel, platforms, cactus)
 
         self.rect.x += self.xvel  # переносим свои положение на xvel
-        self.collide(self.xvel, 0, platforms)
+        self.collide(self.xvel, 0, platforms, cactus)
 
 
-    def collide(self, xvel, yvel, platforms):
+    def collide(self, xvel, yvel, platforms, cactus):
         for p in platforms:
             if sprite.collide_rect(self, p):  # если есть пересечение платформы с игроком
 
@@ -162,8 +162,9 @@ class Dino(sprite.Sprite):
                     self.rect.top = p.rect.bottom  # то не движется вверх
                     self.yvel = 0  # и энергия прыжка пропадает
 
-                if isinstance(p, BlockDie):
-                    self.die()
+        if sprite.collide_rect(self, cactus):
+            # print('collide')
+            self.die()
 
     def die(self):
         time.wait(500)
@@ -192,7 +193,7 @@ class BlockDie(sprite.Sprite):
         self.yvel = 0
 
     def update(self):
-        self.image.fill(Color(PLATFORM_COLOR))
+        # self.image.fill(Color(PLATFORM_COLOR))
         self.rect.x += self.xvel
         self.rect.y += self.yvel
 
