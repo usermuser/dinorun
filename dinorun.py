@@ -30,6 +30,7 @@ ANIMATION_DELAY = 100 # скорость смены кадров
 ANIMATION_JUMP = [('assets/dino/dino_jump.png', 100)]
 ANIMATION_RUN = [('assets/dino/dino_r1.png'),
                 ('assets/dino/dino_r2.png'),]
+ICON_DIR = os.path.dirname(__file__) #  Полный путь к каталогу с файлами
 
 def main():
     pygame.init()
@@ -156,6 +157,10 @@ class Dino(sprite.Sprite):
                     self.rect.top = p.rect.bottom  # то не движется вверх
                     self.yvel = 0  # и энергия прыжка пропадает
 
+    def die(self):
+        time.wait(500)
+        self.teleporting(self.startX, self.startY) # перемещаемся в начальные координаты
+
 
 class Platform(sprite.Sprite):
     def __init__(self, x, y):
@@ -165,11 +170,26 @@ class Platform(sprite.Sprite):
         self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
 
 class BlockDie(sprite.Sprite):
-    def __init__(self):
+    def __init__(self, x, y, size):
         super().__init__()
+        self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
+        self.image.fill(Color(COLOR))
         self.image = image.load('assets/blocks/penis.png')
-        self.type = ['small','double_small','big','double_big']
+        self.type = size
         # Не забудь сделать self.rect
+        self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT) # прямоугольный объект
+        self.image.set_colorkey(Color(COLOR)) # делаем фон прозрачным
+        self.startX = x # начальные координаты
+        self.startY = y
+        self.xvel = 3
+        self.yvel = 0
+
+    def update(self):
+        self.image.fill(Color(PLATFORM_COLOR))
+        self.rect.x += self.xvel
+        self.rect.y += self.yvel
+
+
 
 
 if __name__ == '__main__':
