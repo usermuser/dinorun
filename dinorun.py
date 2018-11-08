@@ -10,7 +10,7 @@ ICON_DIR = os.path.dirname(__file__) #  Полный путь к каталог�
 WIN_WIDTH =  800 # Ширина создаваемого окна
 WIN_HEIGHT = 640 # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT) # Группируем ширину и высоту в одну переменную
-BACKGROUND_COLOR = '#a4b0c4' #'#0639a8' # "#004400"
+BACKGROUND_COLOR = '#ffffff' #черный > '#000000' # серый >'#a4b0c4' #'#0639a8' # "#004400"
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 RED =   (255,0,0)
@@ -180,7 +180,7 @@ class Dino(sprite.Sprite):
         # dead = pygame.sprite.collide_rect_ratio(ratio)(left, right):
         dead = pygame.sprite.collide_rect_ratio(0.5)(self, cactus)
         if dead:
-            print(self.rect.x)
+            # print(self.rect.x)
             self.die()
 
     def die(self):
@@ -199,11 +199,13 @@ class Platform(sprite.Sprite):
 class BlockDie(sprite.Sprite):
     def __init__(self, x, y, size):
         super().__init__()
-        self.image = image.load('assets/blocks/penis.png'.format(ICON_DIR))
+        # self.image = image.load('assets/blocks/penis.png'.format(ICON_DIR))
+        self.image = image.load('assets/blocks/cacus1_2x.png'.format(ICON_DIR))
         self.type = size
         # Не забудь сделать self.rect
-        self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT) # прямоугольный объект
-        self.image.set_colorkey(Color(COLOR)) # делаем фон прозрачным
+        # self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT) # прямоугольный объект
+        self.rect = Rect(x, y, PLATFORM_WIDTH, 70) # прямоугольный объект
+        # self.image.set_colorkey(Color(COLOR)) # делаем фон прозрачным
         self.startX = x # начальные координаты
         self.startY = y
         self.xvel = -3
