@@ -20,9 +20,10 @@ GROUND = (WIN_HEIGHT * 0.8) + 43
 WIDTH = 100 #22
 HEIGHT = 100 #32
 COLOR =  "#888888"
-MOVE_SPEED = 7
+MOVE_SPEED = 20
 JUMP_POWER = 10
 GRAVITY = 0.35 # Сила, которая будет тянуть нас вниз
+SPEED_UP = USEREVENT+1 # we will increase speed every 5 secs
 
 PLATFORM_WIDTH = 32
 PLATFORM_HEIGHT = 32
@@ -36,6 +37,8 @@ ANIMATION_RUN = [('assets/dino/dino_r1.png'.format(ICON_DIR)),
 
 def main():
     pygame.init()
+
+    pygame.time.set_timer(SPEED_UP, 2000)
 
     screen = pygame.display.set_mode(DISPLAY)
     pygame.display.set_caption('Dinorun')
@@ -94,19 +97,19 @@ def main():
             if e.type == KEYUP and e.key == K_UP:
                 up = False
 
+            if e.type == SPEED_UP:
+                cactus.xvel += -2
+
+
         screen.blit(bg, (0,0))
         hero.update(up, platforms, cactus)  # передвижение
         cactus.update()
         entities.draw(screen)
         pygame.display.update()
 
-        # print(dead)
-
-        # if len(dead) > 0:
-        #     print('[+]', hero.rect.x)
-
         if cactus.rect.x < 0:
             cactus.rect.x = 1000
+
 
 
 class Dino(sprite.Sprite):
@@ -173,22 +176,12 @@ class Dino(sprite.Sprite):
                     self.rect.top = p.rect.bottom  # то не движется вверх
                     self.yvel = 0  # и энергия прыжка пропадает
 
+        # if self.rect.x + 32 > cactus.rect.x and self.rect.y + 64 > cactus.rect.y:
         # dead = pygame.sprite.collide_rect_ratio(ratio)(left, right):
         dead = pygame.sprite.collide_rect_ratio(0.5)(self, cactus)
         if dead:
-            print(seld.rect.x)
+            print(self.rect.x)
             self.die()
-
-        # if sprite.collide_rect(self, cactus):
-        # if x(0.5):
-
-        # if self.rect.x + 32 > cactus.rect.x and self.rect.y + 64 > cactus.rect.y:
-
-        # dead = pygame.sprite.spritecollide(self, cactus, True)
-        # if dead:
-        #     print(cactus.rect.x)
-            # self.die()
-
 
     def die(self):
         time.wait(1500)
