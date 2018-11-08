@@ -206,7 +206,7 @@ class BlockDie(sprite.Sprite):
     def __init__(self, x, y, size):
         super().__init__()
         # self.image = image.load('assets/blocks/penis.png'.format(ICON_DIR))
-        self.image = image.load('assets/blocks/cacus1_2x.png'.format(ICON_DIR))
+        self.image = image.load('assets/blocks/cactus1_2x.png'.format(ICON_DIR))
         self.type = size
         # self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT) # прямоугольный объект
         self.rect = Rect(x, y, PLATFORM_WIDTH, 70) # прямоугольный объект
