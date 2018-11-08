@@ -10,7 +10,7 @@ ICON_DIR = os.path.dirname(__file__) #  Полный путь к каталог�
 WIN_WIDTH =  800 # Ширина создаваемого окна
 WIN_HEIGHT = 640 # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT) # Группируем ширину и высоту в одну переменную
-BACKGROUND_COLOR = '#a4b0c4' #'#0639a8' # "#004400"
+BACKGROUND_COLOR = '#ffffff' #черный > '#000000' # серый >'#a4b0c4' #'#0639a8' # "#004400"
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 RED =   (255,0,0)
@@ -24,6 +24,7 @@ MOVE_SPEED = 20
 JUMP_POWER = 10
 GRAVITY = 0.35 # Сила, которая будет тянуть нас вниз
 SPEED_UP = USEREVENT+1 # we will increase speed every 5 secs
+INCREASE_SCORE = USEREVENT+1
 
 PLATFORM_WIDTH = 32
 PLATFORM_HEIGHT = 32
@@ -39,13 +40,14 @@ def main():
     pygame.init()
 
     pygame.time.set_timer(SPEED_UP, 2000)
+    pygame.time.set_timer(INCREASE_SCORE, 1000)
 
     screen = pygame.display.set_mode(DISPLAY)
     pygame.display.set_caption('Dinorun')
     bg = Surface((WIN_WIDTH, WIN_HEIGHT))
     bg.fill(Color(BACKGROUND_COLOR))
-    hero = Dino(50, 200)  # создаем героя по (x,y) координатам
-    cactus = BlockDie(1000, 400,'small')
+    hero = Dino(50, 300)  # создаем героя по (x,y) координатам
+    cactus = BlockDie(1000, 380,'small')
 
     up = False
 
@@ -100,13 +102,16 @@ def main():
             if e.type == SPEED_UP:
                 cactus.xvel += -2
 
+            if e.type == INCREASE_SCORE:
+                hero.score += 100
+
 
         screen.blit(bg, (0,0))
         hero.update(up, platforms, cactus)  # передвижение
         cactus.update()
         entities.draw(screen)
         pygame.display.update()
-
+        print(hero.score)
         if cactus.rect.x < 0:
             cactus.rect.x = 1000
 
@@ -134,6 +139,7 @@ class Dino(sprite.Sprite):
         self.image.set_colorkey(Color(COLOR))  # делаем фон прозрачным
         self.boltAnimJump = pyganim.PygAnimation(ANIMATION_JUMP)
         self.boltAnimJump.play()
+        self.score = 0
 
 
     def update(self, up, platforms, cactus):
@@ -180,7 +186,7 @@ class Dino(sprite.Sprite):
         # dead = pygame.sprite.collide_rect_ratio(ratio)(left, right):
         dead = pygame.sprite.collide_rect_ratio(0.5)(self, cactus)
         if dead:
-            print(self.rect.x)
+            # print(self.rect.x)
             self.die()
 
     def die(self):
@@ -199,11 +205,12 @@ class Platform(sprite.Sprite):
 class BlockDie(sprite.Sprite):
     def __init__(self, x, y, size):
         super().__init__()
-        self.image = image.load('assets/blocks/penis.png'.format(ICON_DIR))
+        # self.image = image.load('assets/blocks/penis.png'.format(ICON_DIR))
+        self.image = image.load('assets/blocks/cacus1_2x.png'.format(ICON_DIR))
         self.type = size
-        # Не забудь сделать self.rect
-        self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT) # прямоугольный объект
-        self.image.set_colorkey(Color(COLOR)) # делаем фон прозрачным
+        # self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT) # прямоугольный объект
+        self.rect = Rect(x, y, PLATFORM_WIDTH, 70) # прямоугольный объект
+        # self.image.set_colorkey(Color(COLOR)) # делаем фон прозрачным
         self.startX = x # начальные координаты
         self.startY = y
         self.xvel = -3
