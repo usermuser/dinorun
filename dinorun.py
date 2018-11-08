@@ -50,6 +50,8 @@ def main():
     platforms = []  # то, во что мы будем врезаться или опираться
     entities.add(hero)
     entities.add(cactus)
+    temp_group = pygame.sprite.Group()
+    temp_group.add(cactus, hero)
 
     level = ['',
              '',
@@ -98,6 +100,11 @@ def main():
         entities.draw(screen)
         pygame.display.update()
 
+        # print(dead)
+
+        # if len(dead) > 0:
+        #     print('[+]', hero.rect.x)
+
         if cactus.rect.x < 0:
             cactus.rect.x = 1000
 
@@ -124,6 +131,7 @@ class Dino(sprite.Sprite):
         self.image.set_colorkey(Color(COLOR))  # делаем фон прозрачным
         self.boltAnimJump = pyganim.PygAnimation(ANIMATION_JUMP)
         self.boltAnimJump.play()
+
 
     def update(self, up, platforms, cactus):
         if up:
@@ -165,13 +173,21 @@ class Dino(sprite.Sprite):
                     self.rect.top = p.rect.bottom  # то не движется вверх
                     self.yvel = 0  # и энергия прыжка пропадает
 
+        # dead = pygame.sprite.collide_rect_ratio(ratio)(left, right):
+        dead = pygame.sprite.collide_rect_ratio(0.5)(self, cactus)
+        if dead:
+            print(seld.rect.x)
+            self.die()
 
         # if sprite.collide_rect(self, cactus):
-        # if sprite.collide_rect_ratio(0.5):
-        # if sprite.collide_circle(self, cactus):
-        if self.rect.x + 64 > cactus.rect.x and self.rect.y + 64 > cactus.rect.y:
-            print(cactus.rect.x)
-            self.die()
+        # if x(0.5):
+
+        # if self.rect.x + 32 > cactus.rect.x and self.rect.y + 64 > cactus.rect.y:
+
+        # dead = pygame.sprite.spritecollide(self, cactus, True)
+        # if dead:
+        #     print(cactus.rect.x)
+            # self.die()
 
 
     def die(self):
