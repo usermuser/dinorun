@@ -1,6 +1,7 @@
 # dinorun
 Google T-Rex game analog written on Python
 
+
 ## TO DO
 1. Add Menu
 2. Add Pause
