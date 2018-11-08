@@ -111,7 +111,7 @@ def main():
         cactus.update()
         entities.draw(screen)
         pygame.display.update()
-
+        print(hero.score)
         if cactus.rect.x < 0:
             cactus.rect.x = 1000
 
