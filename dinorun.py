@@ -165,8 +165,12 @@ class Dino(sprite.Sprite):
                     self.rect.top = p.rect.bottom  # то не движется вверх
                     self.yvel = 0  # и энергия прыжка пропадает
 
-        if sprite.collide_rect(self, cactus):
-            # print('collide')
+
+        # if sprite.collide_rect(self, cactus):
+        # if sprite.collide_rect_ratio(0.5):
+        # if sprite.collide_circle(self, cactus):
+        if self.rect.x + 64 > cactus.rect.x and self.rect.y + 64 > cactus.rect.y:
+            print(cactus.rect.x)
             self.die()
 
 
